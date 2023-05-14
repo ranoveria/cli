@@ -1,10 +1,20 @@
 import prompts, { PromptObject } from 'prompts';
-import { cmds, getSrcPath, logProcess, logSuccess } from '@src/helpers';
-import fs from 'fs';
+import { cmds, logProcess, logSuccess } from '@src/helpers';
 import { execSync } from 'child_process';
 import { Scope } from '@src/models/Scope';
+import stacksScopes from '@src/stacks/stacksScopes';
+import postInstallFiles from '@src/stacks/postInstallFiles';
+import preInstallFiles from '@src/stacks/preInstallFiles';
 
-const STACKS = fs.readdirSync(getSrcPath('stacks'));
+const STACKS = [
+  'cli',
+  'express',
+  'mern',
+  'mobile',
+  'mongo',
+  'react',
+  'react-native',
+];
 
 const questions: PromptObject[] = [
   {
@@ -72,16 +82,13 @@ export class Project {
       'Running pre-install scripts (this may take some time, be patient)...'
     );
 
-    const preInstallPath = getSrcPath('stacks', this.stack, 'pre-install.ts');
-
-    if (fs.existsSync(preInstallPath)) {
-      const { preInstall } = await import(preInstallPath);
-
+    const preInstall = preInstallFiles[this.stack];
+    if (preInstall) {
       preInstall(this.name);
     } else {
       execSync(
         cmds(
-          `mkdir ${this.name}`,
+          `if not exist ${this.name} md ${this.name}`,
           `cd ${this.name}`,
           `yarn init -y`,
           `git init`
@@ -93,29 +100,23 @@ export class Project {
   }
 
   private async runPostInstallScripts() {
-    const postInstallPath = getSrcPath('stacks', this.stack, 'post-install.ts');
+    logProcess('Running post-install scripts...');
 
-    if (fs.existsSync(postInstallPath)) {
-      logProcess('Running post-install scripts...');
-
-      const { postInstall } = await import(postInstallPath);
+    const postInstall = postInstallFiles[this.stack];
+    if (postInstall) {
       postInstall(this.name);
-
-      logSuccess('Finished running post-install scripts.');
     }
+
+    logSuccess('Finished running post-install scripts.');
   }
 
   private setScopes() {
-    const scopesFilePath = getSrcPath('stacks', this.stack, 'scopes.json');
+    logProcess('Acquiring scopes...');
 
-    if (fs.existsSync(scopesFilePath)) {
-      logProcess('Acquiring scopes...');
+    stacksScopes[this.stack].map((scope: string) =>
+      this.scopes.push(new Scope(scope, this.name))
+    );
 
-      JSON.parse(fs.readFileSync(scopesFilePath, 'utf-8')).map(
-        (scope: string) => this.scopes.push(new Scope(scope, this.name))
-      );
-
-      logSuccess('Scopes acquired.');
-    }
+    logSuccess('Scopes acquired.');
   }
 }

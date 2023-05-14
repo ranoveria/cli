@@ -3,11 +3,16 @@
   "author": "ranoveria",
   "license": "MIT",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "CLI for creating projects template",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "ts-node index.ts",
-    "build": "webpack"
+    "start": "node dist/main.js",
+    "build": "webpack",
+    "test": "yarn build && npm i -g && cd C:\\Users\\Yurii\\Documents\\Projects && npx @ranoveria/cli"
+  },
+  "bin": {
+    "@ranoveria/cli": "dist/main.js"
   },
   "dependencies": {
     "@types/lodash": "^4.14.194",
@@ -26,16 +31,31 @@
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^20.1.4",
     "@types/prompts": "^2.4.4",
+    "copy-webpack-plugin": "^11.0.0",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
-    "tsconfig-paths-webpack-plugin": "^4.0.1"
+    "tsconfig-paths-webpack-plugin": "^4.0.1",
+    "webpack-shebang-plugin": "^1.1.8"
   },
   "prettier": {
     "trailingComma": "es5",
     "tabWidth": 2,
     "semi": true,
     "singleQuote": true
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ranoveria/cli.git"
+  },
+  "keywords": [
+    "cli",
+    "bootstrap",
+    "template"
+  ],
+  "bugs": {
+    "url": "https://github.com/ranoveria/cli/issues"
+  },
+  "homepage": "https://github.com/ranoveria/cli#readme"
 }

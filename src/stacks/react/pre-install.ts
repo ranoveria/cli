@@ -1,8 +1,9 @@
 import { execSync } from 'child_process';
-import { cmds, getPath } from '@src/helpers';
+import { cmds } from '@src/helpers';
+import * as path from 'path';
 
 export const preInstall = (projectName: string) => {
-  const projectPath = getPath(projectName);
+  const projectPath = [process.cwd(), projectName].join(path.sep);
   execSync(
     cmds(
       `npx create-react-app ${projectName} --template typescript`,

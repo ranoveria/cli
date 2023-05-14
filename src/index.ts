@@ -1,8 +1,7 @@
 import prompts, { PromptObject } from 'prompts';
-import path from 'path';
-import { getSrcPath } from '@src/helpers';
 import process from 'process';
 import chalk from 'chalk';
+import flows from '@src/flows';
 
 const questions: PromptObject[] = [
   {
@@ -11,8 +10,6 @@ const questions: PromptObject[] = [
     message: 'Select desired flow:',
     choices: [
       { title: 'Setup project', value: 'setup-project' },
-      { title: 'Generate files', value: 'gen-files' },
-      { title: 'Edit files', value: 'edit' },
       { title: chalk.yellow('Another time'), value: 'exit' },
     ],
   },
@@ -24,9 +21,7 @@ export const start = async () => {
     process.exit();
   }
 
-  const { startFlow } = await import(
-    path.resolve(getSrcPath('flows', `${flow}/index.ts`))
-  );
+  const startFlow = flows[flow];
   startFlow().then(() => {
     // Restart
     console.log();
