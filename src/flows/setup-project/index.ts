@@ -1,6 +1,6 @@
 import { flowHandler } from '@src/helpers';
-import { Project } from '@src/models';
+import { CombinedProject } from '@src/models/CombinedProject';
 
 export const startFlow = flowHandler(async () => {
-  await new Project().setup();
+  await new CombinedProject().setup();
 });
