@@ -3,12 +3,13 @@
   "author": "ranoveria",
   "license": "MIT",
   "private": false,
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "CLI for creating projects template",
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/main.js",
     "build": "webpack",
+    "rebuild": "yarn build && npm uninstall -g @ranoveria/cli && npm i -g",
     "test": "yarn build && npm i -g && cd C:\\Users\\Yurii\\Documents\\Projects && npx @ranoveria/cli"
   },
   "bin": {

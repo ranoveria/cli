@@ -10,7 +10,7 @@ const STACKS = [
   'cli',
   'express',
   'mern',
-  'mobile',
+  'expo',
   'mongo',
   'react',
   'react-native',
