@@ -14,9 +14,9 @@ export const flowHandler = (flowStarter: () => Promise<any>) => async () =>
   });
 
 export const logSuccess = (msg: string) =>
-  console.log(chalk.greenBright('√'), chalk.whiteBright(msg));
+  console.log(chalk.greenBright('√'), chalk.greenBright(msg));
 export const logError = (msg: string) =>
   console.log(chalk.redBright('×'), chalk.whiteBright(msg));
-export const logProcess = (msg: string) => console.log(chalk.blueBright(msg));
+export const logProcess = (msg: string) => console.log(chalk.blue(msg));
 
 export const cmds = (..._cmds: string[]) => _cmds.join(' && ');

@@ -26,12 +26,21 @@ const questions: PromptObject[] = [
 ];
 
 export class Project {
-  private name: string = '';
-  private stack: string = '';
+  protected name: string = '';
+  protected stack: string = '';
   private scopes: Scope[] = [];
 
+  constructor(name?: string, stack?: string) {
+    if (name && stack) {
+      this.name = name;
+      this.stack = stack;
+    }
+  }
+
   async setup() {
-    await this.initialize();
+    if (!this.name || !this.stack) {
+      await this.initialize();
+    }
     logProcess(`Setup for ${this.name} project started...`);
 
     await this.runPreInstallScripts();
@@ -48,7 +57,7 @@ export class Project {
     console.log();
   }
 
-  private async initialize() {
+  protected async initialize() {
     const { projectName, stack } = await prompts(questions);
     if (!projectName) {
       throw 'Cannot create project without a name';
