@@ -1,11 +1,4 @@
-import process from 'process';
-import path from 'path';
 import chalk from 'chalk';
-
-export const getSrcPath = (...pathChunks: string[]) =>
-  [process.cwd(), 'src', ...pathChunks].join(path.sep);
-export const getPath = (...pathChunks: string[]) =>
-  [process.cwd(), ...pathChunks].join(path.sep);
 export const flowHandler = (flowStarter: () => Promise<any>) => async () =>
   await flowStarter().catch((err) => {
     logError("Oops... Something went wrong, here's what:");

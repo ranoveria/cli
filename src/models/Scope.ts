@@ -1,13 +1,10 @@
-import fs from 'fs';
-import {
-  cmds,
-  getPath,
-  getSrcPath,
-  logProcess,
-  logSuccess,
-} from '@src/helpers';
+import { cmds, logProcess, logSuccess } from '@src/helpers';
 import { execSync } from 'child_process';
+import packages from '@src/scopes/packages';
+import configFiles from '@src/scopes/configFiles';
 import fsExtra from 'fs-extra';
+import * as path from 'path';
+import process from 'process';
 
 export class Scope {
   private readonly name: string = '';
@@ -35,9 +32,7 @@ export class Scope {
   private setPackages() {
     logProcess(`Acquiring ${this.name} packages...`);
 
-    this.packages = JSON.parse(
-      fs.readFileSync(getSrcPath('scopes', this.name, 'packages.json'), 'utf-8')
-    );
+    this.packages = packages[this.name];
 
     logSuccess(`Packages for ${this.name} scope acquired.`);
   }
@@ -76,30 +71,26 @@ export class Scope {
   }
 
   private copyTemplates() {
-    const projectDir = getPath(this.projectName);
+    logProcess(`Copying ${this.name} templates...`);
 
-    const scopeFilesDirSrc = getSrcPath('scopes', this.name, 'files');
+    const scopeFilesDirSrc = path.resolve(
+      __dirname,
+      'scopes',
+      this.name,
+      'files'
+    );
+    const projectDir = [process.cwd(), this.projectName].join(path.sep);
+    fsExtra.copySync(scopeFilesDirSrc, projectDir);
 
-    if (fs.existsSync(scopeFilesDirSrc)) {
-      logProcess(`Copying ${this.name} templates...`);
-
-      fsExtra.copySync(scopeFilesDirSrc, projectDir);
-
-      logSuccess(`Successfully copied ${this.name} templates.`);
-    }
+    logSuccess(`Successfully copied ${this.name} templates.`);
   }
 
   private async configure() {
-    const configFilePath = getSrcPath('scopes', this.name, 'config.ts');
+    logProcess(`Running ${this.name} configuration scripts...`);
 
-    if (fs.existsSync(configFilePath)) {
-      logProcess(`Running ${this.name} configuration scripts...`);
+    const configure = configFiles[this.name];
+    configure(this.projectName);
 
-      await import(configFilePath).then(({ configure }) =>
-        configure(this.projectName)
-      );
-
-      logProcess(`Finished running ${this.name} configuration scripts.`);
-    }
+    logProcess(`Finished running ${this.name} configuration scripts.`);
   }
 }

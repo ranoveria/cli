@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { getPath } from '@src/helpers';
+import * as path from 'path';
 
 const prettierConfig = {
   trailingComma: 'es5',
@@ -10,7 +10,9 @@ const prettierConfig = {
 
 export const configure = (projectName: string) => {
   // Modify package.json
-  const packageJsonPath = getPath(projectName, 'package.json');
+  const packageJsonPath = [process.cwd(), projectName, 'package.json'].join(
+    path.sep
+  );
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
   // Add prettier config
