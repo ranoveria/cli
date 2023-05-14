@@ -1,0 +1,41 @@
+{
+  "name": "@ranoveria/cli",
+  "author": "ranoveria",
+  "license": "MIT",
+  "private": false,
+  "version": "1.0.0",
+  "description": "CLI for creating projects template",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.194",
+    "@types/log-symbols": "^3.0.0",
+    "chalk": "4",
+    "console-symbols": "^1.0.0",
+    "dotenv": "^16.0.3",
+    "fs-extra": "^11.1.1",
+    "lodash": "^4.17.21",
+    "prompts": "^2.4.2",
+    "typescript": "^5.0.4",
+    "webpack": "^5.82.1",
+    "webpack-cli": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "@types/node": "^20.1.4",
+    "@types/prompts": "^2.4.4",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8",
+    "ts-loader": "^9.4.2",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths-webpack-plugin": "^4.0.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  }
+}

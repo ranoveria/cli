@@ -1,0 +1,15 @@
+{
+  "dependencies": [
+    "lodash",
+    "dotenv"
+  ],
+  "devDependencies": [
+    "@types/lodash",
+    "prettier",
+    "webpack",
+    "webpack-cli",
+    "typescript",
+    "ts-loader",
+    "tsconfig-paths-webpack-plugin"
+  ]
+}

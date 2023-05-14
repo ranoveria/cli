@@ -1,0 +1,7 @@
+{
+  "devDependencies": [
+    "sass",
+    "sass-loader",
+    "style-loader"
+  ]
+}

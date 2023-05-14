@@ -1,0 +1,10 @@
+{
+  "dependencies": [
+    "@sendgrid/mail",
+    "cors"
+  ],
+  "devDependencies": [
+    "nodemon",
+    "ts-node"
+  ]
+}
